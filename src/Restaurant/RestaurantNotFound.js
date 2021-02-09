@@ -1,15 +1,15 @@
 import { Button, Jumbotron } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export default function RestaurantNotFound() {
+export default function RestaurantNotFound(props) {
   return (
     <>
       <Jumbotron>
         <div className="text-center">
           <p className="text-center h3 mt-2">
-            No restaurants found in this borough.
+            No restaurants found {props.search}.
           </p>
-          <p>Please type another borough.</p>
+          <p>Please retry.</p>
           <br />
           <Link to="/restaurants">
             <Button variant="secondary" size="sm">
