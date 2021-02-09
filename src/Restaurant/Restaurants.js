@@ -1,16 +1,11 @@
 import queryString from "query-string";
 import { useState, useEffect } from "react";
-import {
-  Button,
-  Card,
-  Jumbotron,
-  Nav,
-  Pagination,
-  Table,
-} from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
-import Config from "./config/config";
-import Loading from "./Loading";
+import { Card, Nav, Pagination, Table } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import Config from "../config/config";
+import Loading from "../utils/Loading";
+import RestaurantNotFound from "./RestaurantNotFound";
+import RestaurantsTable from "./RestaurantsTable";
 
 export default function Restaurants(props) {
   const [restaurants, setRestaurants] = useState(null);
@@ -20,7 +15,11 @@ export default function Restaurants(props) {
   let history = useHistory();
   useEffect(() => {
     // Fix the case of the query to match pattern in database: Only first letter is uppercase
-    let boroughQuery = query.borough ? `&borough=${query.borough[0].toUpperCase() + query.borough.slice(1).toLowerCase() }` : "";
+    let boroughQuery = query.borough
+      ? `&borough=${
+          query.borough[0].toUpperCase() + query.borough.slice(1).toLowerCase()
+        }`
+      : "";
     setBorough(query.borough);
     async function fetchData() {
       const response = await fetch(
@@ -60,34 +59,7 @@ export default function Restaurants(props) {
           </Card.Body>
         </Card>
         <br />
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Address</th>
-              <th scope="col">Borough</th>
-              <th scope="col">Cuisine</th>
-            </tr>
-          </thead>
-          <tbody>
-            {restaurants.map((restaurant, index) => (
-              <tr
-                key={index}
-                data-id={restaurant._id}
-                onClick={() => {
-                  history.push(`/restaurant/${restaurant._id}`);
-                }}
-              >
-                <td className="col-4">{restaurant.name}</td>
-                <td className="col-3">
-                  {restaurant.address.building} {restaurant.address.street}
-                </td>
-                <td className="col-2">{restaurant.borough}</td>
-                <td className="col-4 text-nowrap">{restaurant.cuisine}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+          <RestaurantsTable restaurants={restaurants} />
         <Nav
           aria-label="Restaurant navigation"
           className="justify-content-center"
@@ -101,27 +73,8 @@ export default function Restaurants(props) {
       </>
     );
   } else if (restaurants === undefined) {
-    return (
-      <>
-        <Jumbotron>
-          <div className="text-center">
-            <p className="text-center h3 mt-2">
-              No restaurants found in this borough.
-            </p>
-            <p>Please type another borough.</p>
-            <br />
-            <Link to="/restaurants">
-              <Button variant="secondary" size="sm">
-                Clear
-              </Button>
-            </Link>
-          </div>
-        </Jumbotron>
-      </>
-    );
+    return <RestaurantNotFound />;
   } else if (restaurants == null) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 }

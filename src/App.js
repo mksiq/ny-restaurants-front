@@ -16,8 +16,8 @@ import {
 import { LinkContainer } from "react-router-bootstrap";
 import { Redirect, Switch, Route, useHistory } from "react-router-dom";
 import About from "./About";
-import Restaurant from "./Restaurant";
-import Restaurants from "./Restaurants";
+import Restaurant from "./Restaurant/Restaurant";
+import Restaurants from "./Restaurant/Restaurants";
 import NotFound from "./NotFound";
 
 function App() {
