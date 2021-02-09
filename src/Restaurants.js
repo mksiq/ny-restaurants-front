@@ -6,11 +6,13 @@ import Config from "./config/config";
 export default function Restaurants(props) {
   const [restaurants, setRestaurants] = useState(null);
   const [page, setPage] = useState(1);
-  let someValue = "No";
+
   useEffect(() => {
+    let borough = query.borough ? `&borough=${query.borough}` : "" ; 
     async function fetchData() {
+      console.log(borough)
       const response = await fetch(
-        `${Config.uri}?page=${page}&perPage=${Config.perPage}`
+        `${Config.uri}?page=${page}&perPage=${Config.perPage}${borough}`
       );
       const data = await response.json();
       setRestaurants(data.restaurants);
@@ -29,6 +31,7 @@ export default function Restaurants(props) {
   };
 
   let query = queryString.parse(props.query);
+  console.log(query);
   if (restaurants) {
     return (
       <>
@@ -53,22 +56,13 @@ export default function Restaurants(props) {
               </tr>
             ))}
           </tbody>
-          )
-          <p>
-            {Config.uri} + {Config.perPage} + {someValue}{" "}
-          </p>
-          <p>
-            Restaurants query: {props.query} {query.ok}
-          </p>
         </Table>
         <Nav aria-label="Restaurant navigation">
           <ul className="pagination justify-content-center">
             <li className="page-item disabled" id="previous">
               <Button onClick={previousPage}>&laquo;</Button>{" "}
             </li>
-            <li className="page-item">
-                {page}
-            </li>
+            <li className="page-item">{page}</li>
             <li className="page-item" id="next">
               <Button onClick={nextPage}>&raquo;</Button>{" "}
             </li>
@@ -77,6 +71,6 @@ export default function Restaurants(props) {
       </>
     );
   } else {
-    return <p>Waiting</p>;
+    return <p className="text-center h4 mt-5">No restaurants found in this borough.</p>;
   }
 }

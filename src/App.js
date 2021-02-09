@@ -25,9 +25,7 @@ function App() {
   let history = useHistory();
   function handleSubmit(e) {
     e.preventDefault();
-    history.push("/restaurants/borough");
-   // setSearchString("");
-   // console.log(searchString);
+    history.push(`/restaurants?borough=${searchString}`);
   }
   return (
     <>
@@ -38,7 +36,7 @@ function App() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <LinkContainer to="/restaurants">
+            <LinkContainer to="/restaurants/">
               <Nav.Link>Full List</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/about">
