@@ -1,19 +1,31 @@
 import queryString from "query-string";
 import { useState, useEffect } from "react";
-import { Button, Nav, Pagination, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import {
+  Button,
+  Card,
+  Jumbotron,
+  Nav,
+  Pagination,
+  Table,
+} from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 import Config from "./config/config";
+import Loading from "./Loading";
 
 export default function Restaurants(props) {
   const [restaurants, setRestaurants] = useState(null);
   const [page, setPage] = useState(1);
+  const [borough, setBorough] = useState("");
   let query = queryString.parse(props.query);
+  let history = useHistory();
   useEffect(() => {
-    let borough = query.borough ? `&borough=${query.borough}` : "";
+    // Fix the case of the query to match pattern in database: Only first letter is uppercase
+    let boroughQuery = query.borough ? `&borough=${query.borough[0].toUpperCase() + query.borough.slice(1).toLowerCase() }` : "";
+    setBorough(query.borough);
     async function fetchData() {
-      console.log(borough);
       const response = await fetch(
-        `${Config.uri}?page=${page}&perPage=${Config.perPage}${borough}`
+        // appends borough that either is empty or the concatenated borough to query
+        `${Config.uri}?page=${page}&perPage=${Config.perPage}${boroughQuery}`
       );
       const data = await response.json();
       setRestaurants(data.restaurants);
@@ -36,10 +48,18 @@ export default function Restaurants(props) {
     }
   };
 
-  console.log(query);
   if (restaurants && restaurants.length > 1) {
     return (
       <>
+        <Card>
+          <Card.Body>
+            <Card.Title>Restaurant List</Card.Title>
+            <Card.Text>
+              Full list of restaurants. Optionally sorted by borough: {borough}
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        <br />
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -51,7 +71,13 @@ export default function Restaurants(props) {
           </thead>
           <tbody>
             {restaurants.map((restaurant, index) => (
-              <tr key={index} data-id={restaurant._id}>
+              <tr
+                key={index}
+                data-id={restaurant._id}
+                onClick={() => {
+                  history.push(`/restaurant/${restaurant._id}`);
+                }}
+              >
                 <td className="col-4">{restaurant.name}</td>
                 <td className="col-3">
                   {restaurant.address.building} {restaurant.address.street}
@@ -62,7 +88,6 @@ export default function Restaurants(props) {
             ))}
           </tbody>
         </Table>
-
         <Nav
           aria-label="Restaurant navigation"
           className="justify-content-center"
@@ -77,18 +102,26 @@ export default function Restaurants(props) {
     );
   } else if (restaurants === undefined) {
     return (
-      <div className="text-center">
-        <p className="text-center h4 mt-5">
-          No restaurants found in this borough.
-        </p>
-        <br />
-        <br />
-        <Link to="/restaurants">
-          <Button>Remove Filter</Button>
-        </Link>        
-      </div>
+      <>
+        <Jumbotron>
+          <div className="text-center">
+            <p className="text-center h3 mt-2">
+              No restaurants found in this borough.
+            </p>
+            <p>Please type another borough.</p>
+            <br />
+            <Link to="/restaurants">
+              <Button variant="secondary" size="sm">
+                Clear
+              </Button>
+            </Link>
+          </div>
+        </Jumbotron>
+      </>
     );
   } else if (restaurants == null) {
-    return <p className="text-center h4 mt-5">Loading Restaurants.</p>;
+    return (
+      <Loading />
+    );
   }
 }
