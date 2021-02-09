@@ -1,16 +1,17 @@
 import queryString from "query-string";
 import { useState, useEffect } from "react";
-import { Button, Nav, Table } from "react-bootstrap";
+import { Button, Nav, Pagination, Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Config from "./config/config";
 
 export default function Restaurants(props) {
   const [restaurants, setRestaurants] = useState(null);
   const [page, setPage] = useState(1);
-
+  let query = queryString.parse(props.query);
   useEffect(() => {
-    let borough = query.borough ? `&borough=${query.borough}` : "" ; 
+    let borough = query.borough ? `&borough=${query.borough}` : "";
     async function fetchData() {
-      console.log(borough)
+      console.log(borough);
       const response = await fetch(
         `${Config.uri}?page=${page}&perPage=${Config.perPage}${borough}`
       );
@@ -18,21 +19,25 @@ export default function Restaurants(props) {
       setRestaurants(data.restaurants);
     }
     fetchData();
-  }, [props, page]);
+  }, [props, page, query.borough]);
 
   const nextPage = (e) => {
     e.preventDefault();
     setPage(page + 1);
   };
 
+  let firstPage = page === 1;
+
   const previousPage = (e) => {
+    console.log(e);
     e.preventDefault();
-    setPage(page - 1);
+    if (page > 1) {
+      setPage(page - 1);
+    }
   };
 
-  let query = queryString.parse(props.query);
   console.log(query);
-  if (restaurants) {
+  if (restaurants && restaurants.length > 1) {
     return (
       <>
         <Table striped bordered hover>
@@ -52,25 +57,38 @@ export default function Restaurants(props) {
                   {restaurant.address.building} {restaurant.address.street}
                 </td>
                 <td className="col-2">{restaurant.borough}</td>
-                <td className="col-4">{restaurant.cuisine}</td>
+                <td className="col-4 text-nowrap">{restaurant.cuisine}</td>
               </tr>
             ))}
           </tbody>
         </Table>
-        <Nav aria-label="Restaurant navigation">
-          <ul className="pagination justify-content-center">
-            <li className="page-item disabled" id="previous">
-              <Button onClick={previousPage}>&laquo;</Button>{" "}
-            </li>
-            <li className="page-item">{page}</li>
-            <li className="page-item" id="next">
-              <Button onClick={nextPage}>&raquo;</Button>{" "}
-            </li>
-          </ul>
+
+        <Nav
+          aria-label="Restaurant navigation"
+          className="justify-content-center"
+        >
+          <Pagination>
+            <Pagination.Prev disabled={firstPage} onClick={previousPage} />
+            <Pagination.Item>{page}</Pagination.Item>
+            <Pagination.Next onClick={nextPage} />
+          </Pagination>
         </Nav>
       </>
     );
-  } else {
-    return <p className="text-center h4 mt-5">No restaurants found in this borough.</p>;
+  } else if (restaurants === undefined) {
+    return (
+      <div className="text-center">
+        <p className="text-center h4 mt-5">
+          No restaurants found in this borough.
+        </p>
+        <br />
+        <br />
+        <Link to="/restaurants">
+          <Button>Remove Filter</Button>
+        </Link>        
+      </div>
+    );
+  } else if (restaurants == null) {
+    return <p className="text-center h4 mt-5">Loading Restaurants.</p>;
   }
 }
