@@ -26,6 +26,7 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
     history.push(`/restaurants?borough=${searchString}`);
+    setSearchString("")
   }
   return (
     <>

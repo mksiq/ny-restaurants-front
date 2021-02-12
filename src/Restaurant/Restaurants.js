@@ -15,7 +15,6 @@ export default function Restaurants(props) {
   let query = queryString.parse(props.query);
   useEffect(() => {
     // Fix the case of the query to match pattern in database: Only first letter is uppercase
-
     let boroughQuery = query.borough
       ? `&borough=${
           query.borough[0].toUpperCase() + query.borough.slice(1).toLowerCase()
@@ -33,7 +32,7 @@ export default function Restaurants(props) {
       setLoading(false);
     }
     fetchData();
-  }, [props, page, query.borough]);
+  }, [page, query.borough]);
 
   const nextPage = (e) => {
     e.preventDefault();
