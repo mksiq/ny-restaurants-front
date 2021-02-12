@@ -7,7 +7,7 @@ export default function NotFound() {
         <div className="text-center">
           <p className="text-center h3 mt-2">404. Page Not Found</p>
           <p className="mt-3">
-            We can't find what you're looking for...{" "}
+            We can't find what you were looking for...{" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
