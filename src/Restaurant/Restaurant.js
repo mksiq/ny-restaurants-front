@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import { useState, useEffect } from "react";
 import Config from "../config/config";
 import Loading from "../utils/Loading";
-import { Card, Container, Row } from "react-bootstrap";
+import { Card, CardDeck, Container, Row } from "react-bootstrap";
 import Utils from "../utils/Utils";
 import RestaurantNotFound from "./RestaurantNotFound";
 
@@ -60,7 +60,7 @@ export default function Restaurant(props) {
           <h4>Ratings</h4>
           <hr />
           <Container fluid>
-            <Row className="justify-content-between">
+          <CardDeck>
               {restaurant.grades.map((grade, index) => (
                 <Card key={index} className="mr-4">
                   <Card.Header>Grade: {grade.grade}</Card.Header>
@@ -69,7 +69,7 @@ export default function Restaurant(props) {
                   </Card.Body>
                 </Card>
               ))}
-            </Row>
+         </CardDeck>
           </Container>
         </>
       );

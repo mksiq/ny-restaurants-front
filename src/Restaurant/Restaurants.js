@@ -70,7 +70,7 @@ export default function Restaurants(props) {
             aria-label="Restaurant navigation"
             className="justify-content-center"
           >
-            <Pagination>
+            <Pagination >
               <Pagination.Prev disabled={firstPage} onClick={previousPage} />
               <Pagination.Item>{page}</Pagination.Item>
               <Pagination.Next onClick={nextPage} />

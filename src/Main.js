@@ -11,7 +11,6 @@ export default function Main() {
   const [loading, setLoading] = useState(true);
   let history = useHistory();
   useEffect(() => {
-
     /**
      * Get a random restaurant between the first one and the 1000th one
      */
@@ -45,7 +44,7 @@ export default function Main() {
                 src="thomas-habr-6NmnrAJPq7M-unsplash.jpg"
                 alt="N.Y. skyline"
               />
-              <Card.Body  className="mid-background">
+              <Card.Body className="mid-background">
                 <h2 className="text-center text-light">New York Restaurants</h2>
                 <Card.Text className="text-center text-light">
                   An extensive list of restaurants in New York.
@@ -71,7 +70,8 @@ export default function Main() {
                       {randomRestaurant.borough}
                     </span>
                   </span>
-                  <Button className="light-background"
+                  <Button
+                    className="light-background"
                     onClick={() => {
                       history.push(`/restaurant/${randomRestaurant._id}`);
                     }}
@@ -79,25 +79,26 @@ export default function Main() {
                     More information
                   </Button>
                 </Card.Text>
+
+                <MapContainer
+                  style={{ height: "200px" }}
+                  center={[
+                    randomRestaurant.address.coord[1],
+                    randomRestaurant.address.coord[0],
+                  ]}
+                  zoom={13}
+                  scrollWheelZoom={false}
+                >
+                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                  <Marker
+                    position={[
+                      randomRestaurant.address.coord[1],
+                      randomRestaurant.address.coord[0],
+                    ]}
+                  ></Marker>
+                </MapContainer>
               </Card.Body>
             </Card>
-            <MapContainer
-              style={{ height: "200px" }}
-              center={[
-                randomRestaurant.address.coord[1],
-                randomRestaurant.address.coord[0],
-              ]}
-              zoom={13}
-              scrollWheelZoom={false}
-            >
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker
-                position={[
-                  randomRestaurant.address.coord[1],
-                  randomRestaurant.address.coord[0],
-                ]}
-              ></Marker>
-            </MapContainer>
           </Container>
         </>
       );

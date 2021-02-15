@@ -1,26 +1,29 @@
 /* https://colorhunt.co/palette/141100 */
 
-html, body {
+html,
+body {
   background-color: #e7e7e9 !important;
-  color: #2a2438 !important;
 }
 
 .dark-background {
   background-color: #2a2438;
-  color: #CCC;
+  color: #ccc;
 }
 
 .light-background {
   background-color: #746c8a !important;
 }
 
-
-Button.light-background:hover{
+Button.light-background:hover {
   background-color: #2a2438 !important;
 }
 
-Button.light-background{
-  border-color: #352f44 !important;
+a.page-link {
+  color: #2a2438 !important;
+}
+
+Button.light-background {
+  border-color: #746c8a !important;
 }
 
 .mid-background {
@@ -28,9 +31,13 @@ Button.light-background{
 }
 
 .text-light {
-  color: #CCC;
+  color: #ccc;
 }
 
 .white-background {
-  background-color: #FFF;
+  background-color: #fff;
+}
+
+button.navbar-toggler {
+  background-color: #ccc!important;
 }
