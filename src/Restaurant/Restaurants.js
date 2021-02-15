@@ -15,11 +15,8 @@ export default function Restaurants(props) {
 
   let query = queryString.parse(props.query);
   useEffect(() => {
- 
     let boroughQuery = query.borough
-      ? `&borough=${
-          Utils.fixCase(query.borough)
-        }`
+      ? `&borough=${Utils.fixCase(query.borough)}`
       : "";
     boroughQuery = encodeURI(boroughQuery);
     console.log(boroughQuery);
@@ -70,7 +67,7 @@ export default function Restaurants(props) {
             aria-label="Restaurant navigation"
             className="justify-content-center"
           >
-            <Pagination >
+            <Pagination>
               <Pagination.Prev disabled={firstPage} onClick={previousPage} />
               <Pagination.Item>{page}</Pagination.Item>
               <Pagination.Next onClick={nextPage} />

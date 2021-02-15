@@ -33,11 +33,13 @@ function App() {
     <>
       <Navbar className="dark-background" expand="lg">
         <LinkContainer to="/">
-          <Navbar.Brand className="text-light">New York Restaurants</Navbar.Brand>
+          <Navbar.Brand className="text-light">
+            New York Restaurants
+          </Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto" >
+          <Nav className="mr-auto">
             <LinkContainer to="/restaurants/">
               <Nav.Link className="text-light">Full List</Nav.Link>
             </LinkContainer>
