@@ -14,18 +14,19 @@ import {
   Row,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { Redirect, Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import About from "./About";
 import Restaurant from "./Restaurant/Restaurant";
 import Restaurants from "./Restaurant/Restaurants";
 import NotFound from "./NotFound";
+import Main from "./Main";
 
 function App() {
   const [searchString, setSearchString] = useState("");
   let history = useHistory();
   function handleSubmit(e) {
     e.preventDefault();
-    history.push(`/restaurants?borough=${searchString}`);
+    history.push(`/restaurants?borough=${encodeURI(searchString)}`);
     setSearchString("")
   }
   return (
@@ -66,7 +67,7 @@ function App() {
               <Route
                 exact
                 path="/"
-                render={() => <Redirect to="/Restaurants" />}
+                render={() => <Main />}
               />
               <Route exact path="/about" render={() => <About />} />
               <Route

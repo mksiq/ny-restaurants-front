@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Card, Nav, Pagination } from "react-bootstrap";
 import Config from "../config/config";
 import Loading from "../utils/Loading";
+import Utils from "../utils/Utils";
 import RestaurantNotFound from "./RestaurantNotFound";
 import RestaurantsTable from "./RestaurantsTable";
 
@@ -14,12 +15,14 @@ export default function Restaurants(props) {
 
   let query = queryString.parse(props.query);
   useEffect(() => {
-    // Fix the case of the query to match pattern in database: Only first letter is uppercase
+ 
     let boroughQuery = query.borough
       ? `&borough=${
-          query.borough[0].toUpperCase() + query.borough.slice(1).toLowerCase()
+          Utils.fixCase(query.borough)
         }`
       : "";
+    boroughQuery = encodeURI(boroughQuery);
+    console.log(boroughQuery);
     setBorough(query.borough);
     async function fetchData() {
       setLoading(true);

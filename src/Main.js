@@ -1,58 +1,61 @@
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
-import { useState, useEffect } from "react";
-import Config from "../config/config";
-import Loading from "../utils/Loading";
 import { Card, Container, Row } from "react-bootstrap";
-import Utils from "../utils/Utils";
-import RestaurantNotFound from "./RestaurantNotFound";
+import Config from "./config/config";
+import { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import RestaurantNotFound from "./Restaurant/RestaurantNotFound";
+import Loading from "./utils/Loading";
+import Utils from "./utils/Utils";
 
-export default function Restaurant(props) {
-  const [restaurant, setRestaurant] = useState(null);
+export default function Main() {
+  const [randomRestaurant, setRandomRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
-      let data;
-
+      const randomPage = Math.trunc(Math.random() * 100 + 1);
       const response = await fetch(
-        `${Config.uri}/${props.id}`
+        `${Config.uri}?page=${randomPage}&perPage=${Config.perPage}`
       );
-      data = await response.json();
-      if (data.hasOwnProperty("_id")) {
-        setRestaurant(data);
+      const data = await response.json();
+      const randomIndex = Math.trunc(Math.random() * 10);
+      if (data[randomIndex].hasOwnProperty("_id")) {
+        setRandomRestaurant(data[randomIndex]); // Math.trunc(Math.random() * 10)
       } else {
-        setRestaurant(null);
+        setRandomRestaurant(null);
       }
       setLoading(false);
     }
     fetchData();
-  }, [props.id]);
+  }, []);
 
   if (!loading) {
-    if (restaurant) {
+    if (randomRestaurant) {
       return (
         <>
           <Card>
             <Card.Body>
-              <Card.Title>{restaurant.name}</Card.Title>
+              <Card.Title>{randomRestaurant.name}</Card.Title>
               <Card.Text className="text-muted">
-                {restaurant.address.building} {restaurant.address.street} -
-                {restaurant.borough}
+                {randomRestaurant.address.building}{" "}
+                {randomRestaurant.address.street} - {randomRestaurant.borough}
               </Card.Text>
             </Card.Body>
           </Card>
           <MapContainer
             style={{ height: "400px" }}
-            center={[restaurant.address.coord[1], restaurant.address.coord[0]]}
+            center={[
+              randomRestaurant.address.coord[1],
+              randomRestaurant.address.coord[0],
+            ]}
             zoom={13}
             scrollWheelZoom={false}
           >
             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <Marker
               position={[
-                restaurant.address.coord[1],
-                restaurant.address.coord[0],
+                randomRestaurant.address.coord[1],
+                randomRestaurant.address.coord[0],
               ]}
             ></Marker>
           </MapContainer>
@@ -61,7 +64,7 @@ export default function Restaurant(props) {
           <hr />
           <Container fluid>
             <Row className="justify-content-between">
-              {restaurant.grades.map((grade, index) => (
+              {randomRestaurant.grades.map((grade, index) => (
                 <Card key={index} className="mr-4">
                   <Card.Header>Grade: {grade.grade}</Card.Header>
                   <Card.Body>
@@ -74,7 +77,7 @@ export default function Restaurant(props) {
         </>
       );
     } else {
-      const errorMessage = `with id ${props.id}`;
+      const errorMessage = `Sorry. Something went wrong.`;
       return <RestaurantNotFound search={errorMessage} />;
     }
   } else {
