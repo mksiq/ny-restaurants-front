@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 export default function RestaurantsTable(props) {
   let history = useHistory();
   return (
-    <Table striped bordered hover>
+    <Table striped bordered hover className="white-background">
     <thead>
       <tr>
         <th scope="col">Name</th>

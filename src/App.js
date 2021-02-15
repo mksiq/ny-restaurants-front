@@ -27,22 +27,22 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
     history.push(`/restaurants?borough=${encodeURI(searchString)}`);
-    setSearchString("")
+    setSearchString("");
   }
   return (
     <>
-      <Navbar bg="light" expand="lg">
+      <Navbar className="dark-background" expand="lg">
         <LinkContainer to="/">
-          <Navbar.Brand>New York Restaurants</Navbar.Brand>
+          <Navbar.Brand className="text-light">New York Restaurants</Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
+          <Nav className="mr-auto" >
             <LinkContainer to="/restaurants/">
-              <Nav.Link>Full List</Nav.Link>
+              <Nav.Link className="text-light">Full List</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/about">
-              <Nav.Link>About</Nav.Link>
+              <Nav.Link className="text-light">About</Nav.Link>
             </LinkContainer>
           </Nav>
           <Form onSubmit={handleSubmit} inline>
@@ -53,7 +53,18 @@ function App() {
               value={searchString}
               onChange={(e) => setSearchString(e.target.value)}
             />
-            <Button type="submit" variant="outline-success">
+            <Button type="submit" variant="outline-warning">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-search"
+                viewBox="0 0 16 16"
+                className="mr-2 mb-1"
+              >
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+              </svg>{" "}
               Search
             </Button>
           </Form>
@@ -64,11 +75,7 @@ function App() {
         <Row>
           <Col>
             <Switch>
-              <Route
-                exact
-                path="/"
-                render={() => <Main />}
-              />
+              <Route exact path="/" render={() => <Main />} />
               <Route exact path="/about" render={() => <About />} />
               <Route
                 path="/restaurants"
