@@ -19,7 +19,6 @@ export default function Restaurants(props) {
       ? `&borough=${Utils.fixCase(query.borough)}`
       : "";
     boroughQuery = encodeURI(boroughQuery);
-    console.log(boroughQuery);
     setBorough(query.borough);
     async function fetchData() {
       setLoading(true);
