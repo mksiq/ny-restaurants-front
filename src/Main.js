@@ -41,7 +41,7 @@ export default function Main() {
               {/* Image from Thomas Habr, source: https://unsplash.com/photos/6NmnrAJPq7M */}
               <Card.Img
                 variant="top"
-                src="thomas-habr-6NmnrAJPq7M-unsplash.jpg"
+                src="/background.jpg"
                 alt="N.Y. skyline"
               />
               <Card.Body className="mid-background">
@@ -58,11 +58,11 @@ export default function Main() {
               <Card.Body>
                 <Card.Title className="text-center">
                   {" "}
-                  Feeling overwhelmed with so many choices? Try this one:
+                  Feeling overwhelmed with so many choices? Try this random one:
                 </Card.Title>
                 <Card.Text className="d-flex justify-content-between">
                   <span>
-                    <strong>{randomRestaurant.name} </strong>{" "}
+                    <span className="h3 font-weight-bold">{randomRestaurant.name} </span>{" "}
                     <span className="text-muted">
                       located at
                       {randomRestaurant.address.building}{" "}
