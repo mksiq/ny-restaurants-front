@@ -1,4 +1,4 @@
-import { Container, Row, Table } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
 export default function RestaurantsTable(props) {
