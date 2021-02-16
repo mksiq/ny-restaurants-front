@@ -41,3 +41,13 @@ Button.light-background {
 button.navbar-toggler {
   background-color: #ccc !important;
 }
+
+.restaurant-card {
+  background-color: #fff;
+  padding: 5px;
+}
+
+.restaurant-card:hover {
+  opacity: 80%;
+  cursor: pointer;
+}
