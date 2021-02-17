@@ -47,6 +47,6 @@ button.navbar-toggler {
 }
 
 .restaurant-card:hover {
-  opacity: 85%;
+  opacity: 0.8;
   cursor: pointer;
 }
