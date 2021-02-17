@@ -1,5 +1,4 @@
 /* https://colorhunt.co/palette/141100 */
-
 html,
 body {
   background-color: #e7e7e9 !important;
@@ -12,7 +11,7 @@ body {
 
 .light-background {
   background-color: #746c8a !important;
-}
+} 
 
 Button.light-background:hover {
   background-color: #2a2438 !important;
@@ -48,6 +47,6 @@ button.navbar-toggler {
 }
 
 .restaurant-card:hover {
-  opacity: 80%;
+  opacity: 85%;
   cursor: pointer;
 }
